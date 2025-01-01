@@ -5,22 +5,25 @@ import {
   useSelectedAnswerIdStore,
   useUserAnswersStore,
 } from "@/hooks/store";
-import { getLocalUserAnswers, getSelectedAnswerid } from "@/lib";
+import { fetchAPI, getLocalUserAnswers, getSelectedAnswerid } from "@/lib";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Content({ attempt }) {
-  const { currentQuestion } = useCurrentQuestionStore();
+  const router = useRouter();
+
+  const [isPending, startTransition] = useTransition();
+
+  const { currentQuestion, updateCurrentQuestion } = useCurrentQuestionStore();
   const { numberQuestion, updateNumberQuestion } = useNumberQuestionStore();
-  const { selectedAnswerId } = useSelectedAnswerIdStore();
-  const { updateCurrentQuestion } = useCurrentQuestionStore();
-  const { updateSelectedAnswerId } = useSelectedAnswerIdStore();
-  const { updateUserAnswers } = useUserAnswersStore();
-  const { userAnswers } = useUserAnswersStore();
+  const { userAnswers, updateUserAnswers } = useUserAnswersStore();
+  const { selectedAnswerId, updateSelectedAnswerId } =
+    useSelectedAnswerIdStore();
 
   useEffect(() => {
     const dataAnswers = getLocalUserAnswers(attempt.id);
@@ -32,6 +35,13 @@ export default function Content({ attempt }) {
 
       updateSelectedAnswerId(selectedAnswerId);
     }
+
+    return () => {
+      updateCurrentQuestion({});
+      updateNumberQuestion(1);
+      updateUserAnswers([]);
+      updateSelectedAnswerId("");
+    };
   }, []);
 
   const handleNextQuestion = () => {
@@ -99,6 +109,17 @@ export default function Content({ attempt }) {
     handleNextQuestion();
   };
 
+  const submitExam = () => {
+    const userAnswers = getLocalUserAnswers(attempt.id);
+    startTransition(async () => {
+      await fetchAPI(process.env.NEXT_PUBLIC_API + "/ujian/store", "POST", {
+        attemptId: attempt.id,
+        userAnswers: userAnswers,
+      });
+      router.replace(`/ujian/${attempt.id}/skor`);
+    });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -133,7 +154,7 @@ export default function Content({ attempt }) {
           <div className="mt-6 flex flex-col md:flex-row items-center justify-between select-none">
             <div>
               <Button
-                disabled={!selectedAnswerId}
+                disabled={!selectedAnswerId || isPending}
                 type="submit"
                 size={"sm"}
                 className="bg-blue-600 hover:bg-blue-600/90 text-white text-[10px] md:text-xs uppercase tracking-wider"
@@ -142,7 +163,10 @@ export default function Content({ attempt }) {
               </Button>
               <Button
                 onClick={handleNextQuestion}
-                disabled={attempt.package.questions.length === numberQuestion}
+                disabled={
+                  attempt.package.questions.length === numberQuestion ||
+                  isPending
+                }
                 type="button"
                 size={"sm"}
                 className="ms-1.5 bg-yellow-600 hover:bg-yellow-600/90 text-white text-[10px] md:text-xs uppercase tracking-wider"
@@ -154,7 +178,8 @@ export default function Content({ attempt }) {
             {userAnswers.length === attempt.package.questions.length && (
               <div>
                 <Button
-                  disabled
+                  disabled={isPending}
+                  onClick={submitExam}
                   type="button"
                   size={"sm"}
                   variant="destructive"
