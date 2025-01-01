@@ -83,7 +83,7 @@ export default function Timer({ startTime, endTime, attemptId }) {
     if (finish || new Date(endTime).getTime() <= new Date().getTime()) {
       updateFinishedTimeExam(true);
       endExam();
-      router.replace(`/ujian/${attemptId}/skor`);
+      router.refresh();
     }
   }, [finish]);
 
