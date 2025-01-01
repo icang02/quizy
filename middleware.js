@@ -16,7 +16,9 @@ export async function middleware(request) {
     // // Check time exam is done or not
     const { data: attempt } = await fetchAPI(
       process.env.NEXT_PUBLIC_API + `/middleware/attempt/${attemptId}`,
-      "POST"
+      "POST",
+      null,
+      1
     );
     let status = attempt.status;
 
@@ -25,7 +27,8 @@ export async function middleware(request) {
       const { data } = await fetchAPI(
         process.env.NEXT_PUBLIC_API + "/ujian/status/update",
         "POST",
-        { attemptId }
+        { attemptId },
+        1
       );
       status = data.status;
     }

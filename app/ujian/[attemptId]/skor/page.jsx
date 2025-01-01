@@ -15,7 +15,10 @@ import ButtonRestart from "./ButtonRestart";
 export default async function page({ params }) {
   const { attemptId } = await params;
   const { data: attempt } = await fetchAPI(
-    process.env.NEXT_PUBLIC_API + `/ujian/${attemptId}/skor`
+    process.env.NEXT_PUBLIC_API + `/ujian/${attemptId}/skor`,
+    null,
+    null,
+    1
   );
 
   return (

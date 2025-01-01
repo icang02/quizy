@@ -12,7 +12,10 @@ import FormStoreAttempt from "@/components/ui/FormAttemptStore";
 export default async function page({ params }) {
   const { slug } = await params;
   const { data: pkg } = await fetchAPI(
-    process.env.NEXT_PUBLIC_API + `/package/${slug}`
+    process.env.NEXT_PUBLIC_API + `/package/${slug}`,
+    null,
+    null,
+    1
   );
 
   return (

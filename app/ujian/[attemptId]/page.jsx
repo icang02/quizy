@@ -6,7 +6,10 @@ import Content from "./Content";
 export default async function page({ params }) {
   const { attemptId } = await params;
   const { data: attempt } = await fetchAPI(
-    process.env.NEXT_PUBLIC_API + `/attempt/${attemptId}`
+    process.env.NEXT_PUBLIC_API + `/attempt/${attemptId}`,
+    null,
+    null,
+    1
   );
 
   return (

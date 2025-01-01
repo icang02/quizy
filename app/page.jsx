@@ -13,7 +13,10 @@ import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   const { data: packages } = await fetchAPI(
-    process.env.NEXT_PUBLIC_API + "/packages"
+    process.env.NEXT_PUBLIC_API + "/packages",
+    null,
+    null,
+    1
   );
 
   return (
