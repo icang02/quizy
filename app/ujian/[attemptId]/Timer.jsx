@@ -27,7 +27,7 @@ export default function Timer({ startTime, endTime, attemptId }) {
       { method: "POST" }
     );
     const data = await res.json();
-    router.refresh();
+    router.replace(`/ujian/${attemptId}/skor`);
     console.log(data);
   };
 
