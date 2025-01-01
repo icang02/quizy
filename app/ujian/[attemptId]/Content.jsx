@@ -182,7 +182,7 @@ export default function Content({ attempt }) {
             {userAnswers.length === attempt.package.questions.length && (
               <div>
                 <Button
-                  disabled={isPending}
+                  disabled={isPending || finishedTimeExam}
                   onClick={submitExam}
                   type="button"
                   size={"sm"}
