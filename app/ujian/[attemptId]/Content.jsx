@@ -4,6 +4,7 @@ import { useRouter } from "nextjs-toploader/app";
 
 import {
   useCurrentQuestionStore,
+  useFinishedTimeExamStore,
   useNumberQuestionStore,
   useSelectedAnswerIdStore,
   useUserAnswersStore,
@@ -20,6 +21,7 @@ export default function Content({ attempt }) {
 
   const [isPending, startTransition] = useTransition();
 
+  const { finishedTimeExam } = useFinishedTimeExamStore();
   const { currentQuestion, updateCurrentQuestion } = useCurrentQuestionStore();
   const { numberQuestion, updateNumberQuestion } = useNumberQuestionStore();
   const { userAnswers, updateUserAnswers } = useUserAnswersStore();
@@ -155,7 +157,7 @@ export default function Content({ attempt }) {
           <div className="mt-6 flex flex-col md:flex-row items-center justify-between select-none">
             <div>
               <Button
-                disabled={!selectedAnswerId || isPending}
+                disabled={!selectedAnswerId || isPending || finishedTimeExam}
                 type="submit"
                 size={"sm"}
                 className="bg-blue-600 hover:bg-blue-600/90 text-white text-[10px] md:text-xs uppercase tracking-wider"
@@ -166,7 +168,8 @@ export default function Content({ attempt }) {
                 onClick={handleNextQuestion}
                 disabled={
                   attempt.package.questions.length === numberQuestion ||
-                  isPending
+                  isPending ||
+                  finishedTimeExam
                 }
                 type="button"
                 size={"sm"}

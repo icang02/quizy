@@ -1,6 +1,6 @@
 "use client";
 import { useNumberQuestionStore } from "@/hooks/store";
-import Timer from "./skor/Timer";
+import Timer from "./Timer";
 
 export default function Header({ attempt }) {
   const { numberQuestion } = useNumberQuestionStore();

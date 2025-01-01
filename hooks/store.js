@@ -25,3 +25,9 @@ export const useUserAnswersStore = create((set) => ({
   userAnswers: [],
   updateUserAnswers: (newValue) => set(() => ({ userAnswers: newValue })),
 }));
+
+export const useFinishedTimeExamStore = create((set) => ({
+  finishedTimeExam: false,
+  updateFinishedTimeExam: (newValue) =>
+    set(() => ({ finishedTimeExam: newValue })),
+}));

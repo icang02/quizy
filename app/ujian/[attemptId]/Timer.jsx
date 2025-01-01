@@ -1,16 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
+import { fetchAPI, getLocalUserAnswers } from "@/lib";
+import { useFinishedTimeExamStore } from "@/hooks/store";
 
 export default function Timer({ startTime, endTime, attemptId }) {
+  const router = useRouter();
+
   const [timeLeft, setTimeLeft] = useState("00:00:00");
   const [totalDuration, setTotalDuration] = useState("00:00:00");
   const [isCritical, setIsCritical] = useState(false);
-  const router = useRouter();
+  const { updateFinishedTimeExam } = useFinishedTimeExamStore();
+
+  const [finish, setFinish] = useState(false);
 
   const endExam = async () => {
-    alert("timout exam...");
+    const userAnswers = getLocalUserAnswers(attemptId);
+
+    await fetchAPI(process.env.NEXT_PUBLIC_API + "/ujian/store", "POST", {
+      attemptId: attemptId,
+      userAnswers: userAnswers,
+    });
   };
 
   useEffect(() => {
@@ -43,6 +54,7 @@ export default function Timer({ startTime, endTime, attemptId }) {
       if (difference < 0) {
         setTimeLeft("00:00:00");
         setIsCritical(true);
+        setFinish(true);
         return;
       }
 
@@ -65,7 +77,15 @@ export default function Timer({ startTime, endTime, attemptId }) {
     const timerInterval = setInterval(calculateTime, 1000);
 
     return () => clearInterval(timerInterval);
-  }, [startTime, endTime, router]);
+  }, [startTime, endTime]);
+
+  useEffect(() => {
+    if (finish || new Date(endTime).getTime() <= new Date().getTime()) {
+      updateFinishedTimeExam(true);
+      endExam();
+      router.replace(`/ujian/${attemptId}/skor`);
+    }
+  }, [finish]);
 
   return (
     <div
