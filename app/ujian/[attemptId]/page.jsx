@@ -5,12 +5,7 @@ import Content from "./Content";
 export default async function page({ params }) {
   const { attemptId } = await params;
   const data = await fetch(
-    process.env.NEXT_PUBLIC_API + `/attempt/${attemptId}`,
-    {
-      next: {
-        tags: ["all"],
-      },
-    }
+    process.env.NEXT_PUBLIC_API + `/attempt/${attemptId}`
   );
   const { data: attempt } = await data.json();
 

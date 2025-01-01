@@ -14,7 +14,12 @@ import ButtonRestart from "./ButtonRestart";
 export default async function page({ params }) {
   const { attemptId } = await params;
   const data = await fetch(
-    process.env.NEXT_PUBLIC_API + `/ujian/${attemptId}/skor`
+    process.env.NEXT_PUBLIC_API + `/ujian/${attemptId}/skor`,
+    {
+      next: {
+        tags: ["all"],
+      },
+    }
   );
   const { data: attempt } = await data.json();
 

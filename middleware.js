@@ -1,6 +1,10 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token") || null;
+
   const { pathname } = request.nextUrl;
 
   // // Define dynamic patterns based on matcher configuration
@@ -52,6 +56,11 @@ export async function middleware(request) {
       }
     }
   }
+
+  if (token && !request.nextUrl.pathname.startsWith("/login")) {
+    return NextResponse.redirect(new URL(`/login`, request.url));
+  }
+  return NextResponse.next();
 }
 
 export const config = {
