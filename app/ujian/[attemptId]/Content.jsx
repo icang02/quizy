@@ -1,4 +1,7 @@
 "use client";
+import { useEffect, useTransition } from "react";
+import { useRouter } from "nextjs-toploader/app";
+
 import {
   useCurrentQuestionStore,
   useNumberQuestionStore,
@@ -11,8 +14,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
-import { useEffect, useTransition } from "react";
-import { useRouter } from "next/navigation";
 
 export default function Content({ attempt }) {
   const router = useRouter();
