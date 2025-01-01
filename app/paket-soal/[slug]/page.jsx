@@ -1,5 +1,3 @@
-import { fetchAPI } from "@/lib";
-
 import {
   Card,
   CardContent,
@@ -11,12 +9,8 @@ import FormStoreAttempt from "@/components/ui/FormAttemptStore";
 
 export default async function page({ params }) {
   const { slug } = await params;
-  const { data: pkg } = await fetchAPI(
-    process.env.NEXT_PUBLIC_API + `/package/${slug}`,
-    null,
-    null,
-    1
-  );
+  const data = await fetch(process.env.NEXT_PUBLIC_API + `/package/${slug}`);
+  const { data: pkg } = await data.json();
 
   return (
     <div className="px-5 md:px-0 mt-10 md:mt-12">

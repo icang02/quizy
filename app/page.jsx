@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { fetchAPI } from "@/lib";
 
 import {
   Card,
@@ -12,12 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default async function Home() {
-  const { data: packages } = await fetchAPI(
-    process.env.NEXT_PUBLIC_API + "/packages",
-    null,
-    null,
-    1
-  );
+  const data = await fetch(process.env.NEXT_PUBLIC_API + "/packages");
+  const { data: packages } = await data.json();
 
   return (
     <div className="px-5 md:px-0 mt-10 md:mt-12">

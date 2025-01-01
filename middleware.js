@@ -1,4 +1,3 @@
-import { fetchAPI } from "@/lib";
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
@@ -14,22 +13,28 @@ export async function middleware(request) {
       pathname.match(skorPattern)?.[1] || pathname.match(ujianPattern)?.[1];
 
     // // Check time exam is done or not
-    const { data: attempt } = await fetchAPI(
+    const data = await fetch(
       process.env.NEXT_PUBLIC_API + `/middleware/attempt/${attemptId}`,
-      "POST",
-      null,
-      1
+      {
+        method: "POST",
+      }
     );
+    const { data: attempt } = await data.json();
     let status = attempt.status;
 
     // Update status if time exam is end
     if (new Date(attempt.end_time).getTime() <= new Date().getTime()) {
-      const { data } = await fetchAPI(
+      const res = await fetch(
         process.env.NEXT_PUBLIC_API + "/ujian/status/update",
-        "POST",
-        { attemptId },
-        1
+        {
+          method: "POST",
+          body: JSON.stringify({ attemptId }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
+      const { data } = await res.json();
       status = data.status;
     }
 

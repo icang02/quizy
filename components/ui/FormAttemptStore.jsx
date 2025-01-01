@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { fetchAPI } from "@/lib";
 
 const formSchema = z.object({
   package_id: z.number(),
@@ -39,12 +38,15 @@ export default function FormStoreAttempt({ attemptId }) {
 
   const onSubmit = (values) => {
     startTransition(async () => {
-      const { data } = await fetchAPI(
-        process.env.NEXT_PUBLIC_API + "/attempt/store",
-        "POST",
-        values
-      );
-      const newAttemptId = data.id;
+      const res = await fetch(process.env.NEXT_PUBLIC_API + "/attempt/store", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { data: attempt } = await res.json();
+      const newAttemptId = attempt.id;
       router.replace(`/ujian/${newAttemptId}`);
     });
   };

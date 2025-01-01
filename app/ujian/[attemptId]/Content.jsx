@@ -9,7 +9,7 @@ import {
   useSelectedAnswerIdStore,
   useUserAnswersStore,
 } from "@/hooks/store";
-import { fetchAPI, getLocalUserAnswers, getSelectedAnswerid } from "@/lib";
+import { getLocalUserAnswers, getSelectedAnswerid } from "@/lib";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -21,7 +21,8 @@ export default function Content({ attempt }) {
 
   const [isPending, startTransition] = useTransition();
 
-  const { finishedTimeExam } = useFinishedTimeExamStore();
+  const { finishedTimeExam, updateFinishedTimeExam } =
+    useFinishedTimeExamStore();
   const { currentQuestion, updateCurrentQuestion } = useCurrentQuestionStore();
   const { numberQuestion, updateNumberQuestion } = useNumberQuestionStore();
   const { userAnswers, updateUserAnswers } = useUserAnswersStore();
@@ -44,6 +45,7 @@ export default function Content({ attempt }) {
       updateNumberQuestion(1);
       updateUserAnswers([]);
       updateSelectedAnswerId("");
+      updateFinishedTimeExam(false);
     };
   }, []);
 
@@ -115,9 +117,15 @@ export default function Content({ attempt }) {
   const submitExam = () => {
     const userAnswers = getLocalUserAnswers(attempt.id);
     startTransition(async () => {
-      await fetchAPI(process.env.NEXT_PUBLIC_API + "/ujian/store", "POST", {
-        attemptId: attempt.id,
-        userAnswers: userAnswers,
+      await fetch(process.env.NEXT_PUBLIC_API + "/ujian/store", {
+        method: "POST",
+        body: JSON.stringify({
+          attemptId: attempt.id,
+          userAnswers: userAnswers,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       router.replace(`/ujian/${attempt.id}/skor`);
     });

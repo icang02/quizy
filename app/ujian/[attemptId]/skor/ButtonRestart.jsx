@@ -3,7 +3,7 @@
 import { useRouter } from "nextjs-toploader/app";
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { fetchAPI, getAllLocalUserAnswers } from "@/lib";
+import { getAllLocalUserAnswers } from "@/lib";
 
 export default function ButtonRestart({ attemptId }) {
   const router = useRouter();
@@ -11,8 +11,14 @@ export default function ButtonRestart({ attemptId }) {
 
   const restartExam = () => {
     startTransition(async () => {
-      await fetchAPI(process.env.NEXT_PUBLIC_API + "/ujian/restart", "POST", {
-        attemptId,
+      await fetch(process.env.NEXT_PUBLIC_API + "/ujian/restart", {
+        method: "POST",
+        body: JSON.stringify({
+          attemptId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       const allUserAnswers = getAllLocalUserAnswers();
       const filtered = allUserAnswers.filter(

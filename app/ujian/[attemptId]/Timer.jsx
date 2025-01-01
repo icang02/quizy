@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "nextjs-toploader/app";
-import { fetchAPI, getLocalUserAnswers } from "@/lib";
+import { getLocalUserAnswers } from "@/lib";
 import { useFinishedTimeExamStore } from "@/hooks/store";
 
 export default function Timer({ startTime, endTime, attemptId }) {
@@ -18,12 +18,18 @@ export default function Timer({ startTime, endTime, attemptId }) {
   const endExam = async () => {
     const userAnswers = getLocalUserAnswers(attemptId);
 
-    await fetchAPI(process.env.NEXT_PUBLIC_API + "/ujian/store", "POST", {
-      attemptId: attemptId,
-      userAnswers: userAnswers,
+    await fetch(process.env.NEXT_PUBLIC_API + "/ujian/store", {
+      method: "POST",
+      body: JSON.stringify({
+        attemptId: attemptId,
+        userAnswers: userAnswers,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     const res = await fetch(
-      process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=oke",
+      process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all",
       { method: "POST" }
     );
     const data = await res.json();

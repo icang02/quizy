@@ -9,17 +9,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { fetchAPI } from "@/lib";
 import ButtonRestart from "./ButtonRestart";
 
 export default async function page({ params }) {
   const { attemptId } = await params;
-  const { data: attempt } = await fetchAPI(
-    process.env.NEXT_PUBLIC_API + `/ujian/${attemptId}/skor`,
-    null,
-    null,
-    1
+  const data = await fetch(
+    process.env.NEXT_PUBLIC_API + `/ujian/${attemptId}/skor`
   );
+  const { data: attempt } = await data.json();
 
   return (
     <div className="px-5 md:px-0 max-w-lg mx-auto mt-10 md:mt-12 gap-8">
