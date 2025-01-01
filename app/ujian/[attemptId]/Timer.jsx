@@ -22,6 +22,13 @@ export default function Timer({ startTime, endTime, attemptId }) {
       attemptId: attemptId,
       userAnswers: userAnswers,
     });
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=oke",
+      { method: "POST" }
+    );
+    const data = await res.json();
+    router.refresh();
+    console.log(data);
   };
 
   useEffect(() => {
@@ -83,7 +90,6 @@ export default function Timer({ startTime, endTime, attemptId }) {
     if (finish || new Date(endTime).getTime() <= new Date().getTime()) {
       updateFinishedTimeExam(true);
       endExam();
-      router.refresh();
     }
   }, [finish]);
 
