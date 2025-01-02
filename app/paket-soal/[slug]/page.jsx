@@ -9,7 +9,11 @@ import FormStoreAttempt from "@/components/ui/FormAttemptStore";
 
 export default async function page({ params }) {
   const { slug } = await params;
-  const data = await fetch(process.env.NEXT_PUBLIC_API + `/package/${slug}`);
+  const data = await fetch(process.env.NEXT_PUBLIC_API + `/package/${slug}`, {
+    next: {
+      tags: ["all"],
+    },
+  });
   const { data: pkg } = await data.json();
 
   return (

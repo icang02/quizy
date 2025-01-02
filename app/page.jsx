@@ -11,7 +11,11 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default async function Home() {
-  const data = await fetch(process.env.NEXT_PUBLIC_API + "/packages");
+  const data = await fetch(process.env.NEXT_PUBLIC_API + "/packages", {
+    next: {
+      tags: ["all"],
+    },
+  });
   const { data: packages } = await data.json();
 
   return (
