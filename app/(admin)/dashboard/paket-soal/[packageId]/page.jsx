@@ -1,3 +1,13 @@
+import Link from "next/link";
+
+import {
+  ArrowDownUp,
+  ArrowUpDown,
+  EllipsisVertical,
+  FilePenLine,
+  Plus,
+} from "lucide-react";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,16 +16,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import {
-  ArrowDownUp,
-  ArrowUpDown,
-  EllipsisVertical,
-  FilePenLine,
-  Plus,
-} from "lucide-react";
-import Link from "next/link";
-
 import {
   Table,
   TableBody,
@@ -25,9 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import AnswerHide from "@/components/AnswerHide";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,11 +34,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-// import ButtonDeletePackage from "@/components/ButtonDeletePackage";
-// import ButtonDeleteQuestion from "@/components/ButtonDeleteQuestion";
-// import FormEditPackage from "@/components/DashboardPaketSoal/FormEditPackage";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+
 import ButtonDeletePackage from "./buttton-delete-package";
 import TableColAnswer from "./table-col-answer";
 
