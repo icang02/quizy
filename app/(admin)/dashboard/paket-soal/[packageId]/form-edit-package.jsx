@@ -52,10 +52,7 @@ export default function FormEditPackage({ id, name, description }) {
           },
         }
       );
-      await fetch(process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all", {
-        method: "POST",
-      });
-      const { data, message } = await response.json();
+      const { message } = await response.json();
 
       toast(message, {
         description: Date(),
@@ -65,13 +62,7 @@ export default function FormEditPackage({ id, name, description }) {
         },
       });
 
-      setForm({
-        id: data.id,
-        name: data.name,
-        description: data.description,
-      });
       setIsOpen(false);
-
       router.refresh();
     });
   };
