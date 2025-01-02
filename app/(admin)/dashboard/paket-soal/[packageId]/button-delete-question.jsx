@@ -23,12 +23,16 @@ export default function ButtonDeleteQuestion({ questionId }) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API}/admin/question/${questionId}/destroy`,
       {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
+    await fetch(process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all", {
+      method: "POST",
+    });
+
     const data = await response.json();
 
     toast(data.message, {
