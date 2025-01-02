@@ -52,6 +52,9 @@ export default function FormEditPackage({ id, name, description }) {
           },
         }
       );
+      await fetch(process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all", {
+        method: "POST",
+      });
       const { data, message } = await response.json();
 
       toast(message, {

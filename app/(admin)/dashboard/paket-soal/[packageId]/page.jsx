@@ -43,6 +43,7 @@ import { Badge } from "@/components/ui/badge";
 import ButtonDeletePackage from "./buttton-delete-package";
 import TableColAnswer from "./table-col-answer";
 import FormEditPackage from "./form-edit-package";
+import ButtonDeleteQuestion from "./button-delete-question";
 
 export default async function page({ params }) {
   const { packageId } = await params;
@@ -148,9 +149,7 @@ export default async function page({ params }) {
                       <Badge variant={"warning"} size={"sm"}>
                         <FilePenLine size={15} />
                       </Badge>
-                      <Badge variant={"destructive"} size={"sm"}>
-                        <Trash size={15} />
-                      </Badge>
+                      <ButtonDeleteQuestion questionId={item.id} />
                     </TableCell>
                   </TableRow>
                 ))}
