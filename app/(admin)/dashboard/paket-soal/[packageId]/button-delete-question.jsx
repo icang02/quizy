@@ -23,7 +23,7 @@ export default function ButtonDeleteQuestion({ questionId }) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API}/admin/question/${questionId}/destroy`,
       {
-        method: "DELETE",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
