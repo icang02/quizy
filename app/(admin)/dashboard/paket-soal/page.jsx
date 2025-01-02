@@ -13,7 +13,11 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import FormAddPackage from "./form-add-package";
 
 export default async function page() {
-  const response = await fetch(process.env.NEXT_PUBLIC_API + "/packages");
+  const response = await fetch(process.env.NEXT_PUBLIC_API + "/packages", {
+    next: {
+      tags: ["all"],
+    },
+  });
   const { data: packages } = await response.json();
 
   return (

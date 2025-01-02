@@ -52,6 +52,10 @@ export default function FormAddPackage() {
           },
         }
       );
+      await fetch(process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all", {
+        method: "POST",
+      });
+
       const { message } = await response.json();
       console.log(message);
 
