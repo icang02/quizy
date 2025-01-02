@@ -9,12 +9,15 @@ export default function ButtonLogout() {
 
   const handleLogout = () => {
     startTransition(async () => {
-      const res = await fetch(process.env.NEXT_PUBLIC_URL + "/api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_URL + "/api/auth/logout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       router.replace("/login");
     });
   };

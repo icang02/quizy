@@ -28,13 +28,12 @@ export default function Timer({ startTime, endTime, attemptId }) {
         "Content-Type": "application/json",
       },
     });
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all",
-      { method: "POST" }
-    );
-    const data = await res.json();
+
+    await fetch(process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all", {
+      method: "POST",
+    });
+
     router.replace(`/ujian/${attemptId}/skor`);
-    console.log(data);
   };
 
   useEffect(() => {

@@ -10,7 +10,7 @@ export default function FormLogin() {
 
   const handleLogin = () => {
     startTransition(async () => {
-      const res = await fetch(process.env.NEXT_PUBLIC_URL + "/api/login", {
+      const res = await fetch(process.env.NEXT_PUBLIC_URL + "/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -47,9 +47,6 @@ export default async function page({ params }) {
         </CardContent>
         <CardFooter className="flex items-center justify-between">
           <ButtonRestart attemptId={attemptId} />
-          <Link href={`/`}>
-            <Button className="w-fit">Selesai</Button>
-          </Link>
         </CardFooter>
       </Card>
     </div>

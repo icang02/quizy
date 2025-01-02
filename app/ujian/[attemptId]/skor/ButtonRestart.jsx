@@ -30,13 +30,22 @@ export default function ButtonRestart({ attemptId }) {
   };
 
   return (
-    <Button
-      onClick={restartExam}
-      disabled={isPending}
-      variant={"destructive"}
-      className="w-fit"
-    >
-      Ulangi Ujian
-    </Button>
+    <>
+      <Button
+        onClick={restartExam}
+        disabled={isPending}
+        variant={"destructive"}
+        className="w-fit"
+      >
+        Ulangi Ujian
+      </Button>
+      <Button
+        disabled={isPending}
+        onClick={() => router.push("/")}
+        className="w-fit"
+      >
+        Selesai
+      </Button>
+    </>
   );
 }

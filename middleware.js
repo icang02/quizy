@@ -1,11 +1,14 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import {
+  apiAuthPrefix,
+  authRoutes,
+  DEFAULT_LOGIN_REDIRECT,
+  publicRoutes,
+} from "./route";
 
-export async function middleware(request) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token") || null;
-
-  const { pathname } = request.nextUrl;
+export async function middleware(req) {
+  const { pathname } = req.nextUrl;
 
   // // Define dynamic patterns based on matcher configuration
   const ujianPattern = /^\/ujian\/(\d+)$/;
@@ -44,25 +47,56 @@ export async function middleware(request) {
 
     if (skorPattern.test(pathname)) {
       if (!status) {
-        return NextResponse.redirect(
-          new URL(`/ujian/${attemptId}`, request.url)
-        );
+        return NextResponse.redirect(new URL(`/ujian/${attemptId}`, req.url));
       }
     } else if (ujianPattern.test(pathname)) {
       if (status) {
         return NextResponse.redirect(
-          new URL(`/ujian/${attemptId}/skor`, request.url)
+          new URL(`/ujian/${attemptId}/skor`, req.url)
         );
       }
     }
   }
 
-  if (token && !request.nextUrl.pathname.startsWith("/login")) {
-    return NextResponse.redirect(new URL(`/login`, request.url));
+  const { nextUrl } = req;
+  const cookieStore = await cookies();
+  const isLoggedIn = cookieStore.get("token") ?? null;
+
+  const isApiAuthRoutes = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isAuthRoutes = authRoutes.includes(nextUrl.pathname);
+  const isPublicRoutes = publicRoutes.some((route) => {
+    if (typeof route === "string") {
+      return route === nextUrl.pathname;
+    } else if (route instanceof RegExp) {
+      return route.test(nextUrl.pathname);
+    }
+    return false;
+  });
+
+  if (isApiAuthRoutes) {
+    return;
   }
-  return NextResponse.next();
+
+  if (isAuthRoutes) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    }
+    return;
+  }
+
+  if (!isLoggedIn && !isPublicRoutes) {
+    return Response.redirect(new URL("/login", nextUrl));
+  }
+
+  return;
 }
 
 export const config = {
-  matcher: ["/ujian/:attemptId", "/ujian/:attemptId/skor"],
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/(api|trpc)(.*)",
+  ],
 };
+// export const config = {
+//   matcher: ["/ujian/:attemptId", "/ujian/:attemptId/skor"],
+// };
