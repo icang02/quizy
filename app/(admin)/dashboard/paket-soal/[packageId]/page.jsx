@@ -6,6 +6,7 @@ import {
   EllipsisVertical,
   FilePenLine,
   Plus,
+  Trash,
 } from "lucide-react";
 
 import {
@@ -37,9 +38,11 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 import ButtonDeletePackage from "./buttton-delete-package";
 import TableColAnswer from "./table-col-answer";
+import FormEditPackage from "./form-edit-package";
 
 export default async function page({ params }) {
   const { packageId } = await params;
@@ -81,11 +84,11 @@ export default async function page({ params }) {
           </Button>
           <Separator orientation="vertical" />
           <div className="flex space-x-1">
-            {/* <FormEditPackage
+            <FormEditPackage
               id={pkg.id}
               name={pkg.name}
               description={pkg.description}
-            />*/}
+            />
             <ButtonDeletePackage packageId={pkg.id} />
           </div>
         </div>
@@ -96,7 +99,6 @@ export default async function page({ params }) {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               {pkg.name}
-
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <EllipsisVertical className="cursor-pointer" />
@@ -123,7 +125,7 @@ export default async function page({ params }) {
               <TableCaption>List soal {pkg.name}</TableCaption>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">#</TableHead>
+                  <TableHead className="w-[40px]">#</TableHead>
                   <TableHead>Soal</TableHead>
                   <TableHead>Jawaban</TableHead>
                   <TableHead className="text-right">Action</TableHead>
@@ -142,11 +144,13 @@ export default async function page({ params }) {
                         }
                       />
                     </TableCell>
-                    <TableCell className="text-right text-nowrap">
-                      <Button variant={"warning"} size={"sm"} className="me-1">
-                        <FilePenLine />
-                      </Button>
-                      {/* <ButtonDeleteQuestion packageId={item.id} /> */}
+                    <TableCell className="text-right text-wrap md:text-nowrap flex gap-1">
+                      <Badge variant={"warning"} size={"sm"}>
+                        <FilePenLine size={15} />
+                      </Badge>
+                      <Badge variant={"destructive"} size={"sm"}>
+                        <Trash size={15} />
+                      </Badge>
                     </TableCell>
                   </TableRow>
                 ))}

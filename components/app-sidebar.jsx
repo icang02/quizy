@@ -42,7 +42,7 @@ export function AppSidebar({ ...props }) {
           {
             title: "Paket Soal",
             url: "/dashboard/paket-soal",
-            isActive: pathname == "/dashboard/paket-soal" && true,
+            isActive: pathname.startsWith("/dashboard/paket-soal") && true,
           },
           {
             title: "Pengaturan",

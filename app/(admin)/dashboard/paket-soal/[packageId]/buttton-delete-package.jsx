@@ -36,6 +36,7 @@ export default function ButtonDeletePackage({ packageId }) {
       },
     });
     router.replace("/dashboard/paket-soal");
+    router.refresh();
   };
 
   return (

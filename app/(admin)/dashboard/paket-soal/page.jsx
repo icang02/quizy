@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { CircleHelp, Clock } from "lucide-react";
+import { CircleHelp, Clock, RefreshCw } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import FormAddPackage from "./form-add-package";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 export default async function page() {
   const response = await fetch(process.env.NEXT_PUBLIC_API + "/packages", {
@@ -37,7 +39,15 @@ export default async function page() {
           </BreadcrumbList>
         </Breadcrumb>
 
-        <FormAddPackage />
+        <div className="flex h-5 items-center space-x-4 text-sm">
+          <Link href={"/dashboard/paket-soal"}>
+            <Button size="sm" variant="outline">
+              <RefreshCw /> Refresh
+            </Button>
+          </Link>
+          <Separator orientation="vertical" />
+          <FormAddPackage />
+        </div>
       </div>
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
