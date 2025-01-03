@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Package {
+  id          Int    @id @default(autoincrement())
+  name        String
+  slug        String
+  description String @db.Text
+
+  questions Question[]
+}
+
+model Question {
+  id        Int    @id @default(autoincrement())
+  packageId Int
+  question  String @db.Text
+
+  package Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+}

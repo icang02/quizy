@@ -46,7 +46,7 @@ export default async function Home() {
               </div>
             </CardContent>
             <CardFooter>
-              {pkg.questions.length === 0 ? (
+              {pkg.questions === 0 ? (
                 <Button disabled className="w-fit">
                   Kerjakan
                 </Button>
