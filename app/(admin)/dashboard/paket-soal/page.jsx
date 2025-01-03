@@ -14,13 +14,20 @@ import FormAddPackage from "./form-add-package";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
+async function fetchData() {
+  const res = await fetch(process.env.NEXT_PUBLIC_API + "/packages");
+  const resJson = await res.json();
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return resJson;
+}
+
 export default async function page() {
-  const response = await fetch(process.env.NEXT_PUBLIC_API + "/packages", {
-    next: {
-      tags: ["all"],
-    },
-  });
-  const { data: packages } = await response.json();
+  const { data: packages } = await fetchData();
 
   return (
     <>
@@ -51,7 +58,7 @@ export default async function page() {
       </div>
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {packages?.map((pkg, index) => (
+        {packages.map((pkg, index) => (
           <Link key={index} href={`/dashboard/paket-soal/${pkg.id}`}>
             <Card className="hover:shadow-md hover:border hover:border-green-300 transition-all">
               <CardHeader>

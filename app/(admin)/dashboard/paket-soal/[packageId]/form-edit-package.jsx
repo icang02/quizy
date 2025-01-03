@@ -52,7 +52,7 @@ export default function FormEditPackage({ id, name, description }) {
           },
         }
       );
-      await fetch(process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all", {
+      await fetch(process.env.NEXT_PUBLIC_API + "/revalidate?tag=all", {
         method: "POST",
       });
       const { message } = await response.json();

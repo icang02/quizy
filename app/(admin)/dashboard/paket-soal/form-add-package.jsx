@@ -46,15 +46,12 @@ export default function FormAddPackage() {
         process.env.NEXT_PUBLIC_API + "/admin/package/store",
         {
           method: "POST",
-          body: JSON.stringify({ package: form }),
+          body: JSON.stringify(form),
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      await fetch(process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all", {
-        method: "POST",
-      });
 
       const { message } = await response.json();
       console.log(message);

@@ -6,7 +6,6 @@ import {
   EllipsisVertical,
   FilePenLine,
   Plus,
-  Trash,
 } from "lucide-react";
 
 import {
@@ -41,8 +40,8 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
 import ButtonDeletePackage from "./buttton-delete-package";
-import TableColAnswer from "./table-col-answer";
-import FormEditPackage from "./form-edit-package";
+// import TableColAnswer from "./table-col-answer";
+// import FormEditPackage from "./form-edit-package";
 import ButtonDeleteQuestion from "./button-delete-question";
 
 export default async function page({ params }) {
@@ -85,11 +84,11 @@ export default async function page({ params }) {
           </Button>
           <Separator orientation="vertical" />
           <div className="flex space-x-1">
-            <FormEditPackage
+            {/* <FormEditPackage
               id={pkg.id}
               name={pkg.name}
               description={pkg.description}
-            />
+            /> */}
             <ButtonDeletePackage packageId={pkg.id} />
           </div>
         </div>
@@ -138,12 +137,12 @@ export default async function page({ params }) {
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell>{item.question}</TableCell>
                     <TableCell>
-                      <TableColAnswer
+                      {/* <TableColAnswer
                         index={index}
                         answer={
                           item.answers.find((a) => a.is_correct)?.answer || null
                         }
-                      />
+                      /> */}
                     </TableCell>
                     <TableCell className="text-right text-wrap md:text-nowrap flex gap-1">
                       <Badge variant={"warning"} size={"sm"}>

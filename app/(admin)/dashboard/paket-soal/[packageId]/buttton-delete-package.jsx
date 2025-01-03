@@ -20,12 +20,9 @@ export default function ButtonDeletePackage({ packageId }) {
 
   const handleDelete = async (id) => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API}/admin/package/${id}/destroy`,
-      { method: "DELETE" }
+      process.env.NEXT_PUBLIC_API + `/admin/package/${id}/destroy`,
+      { method: "POST" }
     );
-    await fetch(process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all", {
-      method: "POST",
-    });
     const data = await response.json();
 
     toast(data.message, {

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import {
   Card,
   CardContent,
@@ -8,18 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import ButtonRestart from "./ButtonRestart";
 
 export default async function page({ params }) {
   const { attemptId } = await params;
   const data = await fetch(
-    process.env.NEXT_PUBLIC_API + `/ujian/${attemptId}/skor`,
-    {
-      next: {
-        tags: ["all"],
-      },
-    }
+    process.env.NEXT_PUBLIC_API + `/ujian/${attemptId}/skor`
   );
   const { data: attempt } = await data.json();
 

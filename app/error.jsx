@@ -7,7 +7,7 @@ import { MoveLeft, RefreshCcw } from "lucide-react";
 export default function error({ error, reset }) {
   const router = useRouter();
   return (
-    <div className="h-screen flex items-center justify-center p-3">
+    <div className="h-screen flex items-center justify-center p-4 md:p-10">
       <div className="text-center">
         <div className="text-7xl">❌</div>
         <h6 className="mt-6 font-bold text-lg">500: Something went wrong!</h6>

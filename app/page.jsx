@@ -10,13 +10,20 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
+async function fetchData() {
+  const res = await fetch(process.env.NEXT_PUBLIC_API + "/packages");
+  const resJson = await res.json();
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return resJson;
+}
+
 export default async function Home() {
-  const data = await fetch(process.env.NEXT_PUBLIC_API + "/packages", {
-    next: {
-      tags: ["all"],
-    },
-  });
-  const { data: packages } = await data.json();
+  const { data: packages } = await fetchData();
 
   return (
     <div className="px-5 md:px-0 mt-10 md:mt-12">

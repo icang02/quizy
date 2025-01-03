@@ -29,9 +29,6 @@ export default function ButtonDeleteQuestion({ questionId }) {
         },
       }
     );
-    await fetch(process.env.NEXT_PUBLIC_URL + "/api/revalidate?tag=all", {
-      method: "POST",
-    });
 
     const data = await response.json();
 
